@@ -1,0 +1,40 @@
+colors=["blue","red","green"]
+
+def isPossible(m):
+    return m["blue"]<=14 and m["green"]<=13 and m["red"]<=12
+
+def getPower(m):
+    ret=1
+    for c in colors:
+        ret*=m[c]
+    return ret
+
+def analizeLine(l):
+    arr1=l.split(":")
+    sets=arr1[1].split(";")
+    ret={}
+    for s in sets:
+        arr2=s.split(",")
+        for ball in arr2:
+            b2=ball.split(" ")
+            if b2[2] not in colors:
+                return 0
+            if b2[2] in ret:
+                ret[b2[2]]=max(ret[b2[2]],int(b2[1]))
+            else:
+                ret[b2[2]]=int(b2[1])
+    if not "blue" in ret:
+        return 0
+    elif not "red" in ret:
+        return 0
+    elif not "green" in ret:
+        return 0
+    else:
+        return getPower(ret)
+
+res=0
+f=open("input")
+for l in f:
+   res+=analizeLine(l.replace("\n",""))
+print(res)
+    
